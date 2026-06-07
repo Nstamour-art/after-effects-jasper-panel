@@ -1,0 +1,12 @@
+{
+  "name": "after-effects-jasper-panel",
+  "version": "1.0.0",
+  "description": "Jasper AI copy generation panel for After Effects",
+  "license": "Apache-2.0",
+  "scripts": {
+    "setup": "node scripts/setup.js"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

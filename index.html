@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jasper</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── Setup / API key screen ───────────────────────────────────────── -->
+  <div id="setup-screen" class="screen hidden">
+    <div class="setup-card">
+      <div class="setup-header">
+        <div class="setup-logo">Jasper</div>
+        <!-- Only visible when returning to settings from the main panel -->
+        <button id="close-setup-btn" class="icon-btn" style="display:none" title="Back">✕</button>
+      </div>
+      <p class="setup-desc">
+        Enter your Jasper API key to generate on-brand copy directly inside After Effects.
+      </p>
+      <input
+        type="password"
+        id="api-key-input"
+        placeholder="Paste API key…"
+        autocomplete="off"
+        spellcheck="false"
+      >
+      <p id="setup-error" class="error-msg hidden"></p>
+      <button id="save-key-btn" class="btn-primary">Connect</button>
+      <p class="help-text">
+        Find your key at <span class="link-hint">app.jasper.ai → Settings → Dev Tools</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Main chat panel ──────────────────────────────────────────────── -->
+  <div id="main-screen" class="screen hidden">
+
+    <header class="panel-header">
+      <span class="header-logo">Jasper</span>
+      <button id="settings-btn" class="icon-btn" title="Settings">⚙</button>
+    </header>
+
+    <div class="voice-bar">
+      <label for="tone-select" class="voice-label">Brand Voice</label>
+      <select id="tone-select">
+        <option value="">Loading…</option>
+      </select>
+    </div>
+
+    <div id="messages" class="messages"></div>
+
+    <div class="input-area">
+      <textarea
+        id="prompt-input"
+        placeholder="Write a lower-third for the opening segment…"
+        rows="3"
+      ></textarea>
+      <div class="input-footer">
+        <span class="send-hint">⌘↵ to send</span>
+        <button id="send-btn" class="btn-primary">Generate</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!--
+    CSInterface.js — Adobe's CEP bridge library.
+    Run `npm run setup` once to download it into lib/.
+    See: https://github.com/Adobe-CEP/CEP-Resources/tree/master/CEP_12.x
+  -->
+  <script src="lib/CSInterface.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/jasper.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
