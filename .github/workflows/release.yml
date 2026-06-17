@@ -1,0 +1,50 @@
+name: Release
+
+# Triggers when you push a version tag: git tag v1.0.0 && git push origin v1.0.0
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-zxp:
+    name: Build and publish ZXP
+    runs-on: macos-latest   # macOS required for the ZXPSignCmd binary
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch CSInterface.js
+        run: node scripts/setup.js
+
+      - name: Download ZXPSignCmd
+        run: |
+          # Adobe-CEP/CEP-Resources — check this URL is current if a new version ships
+          curl -fsSL \
+            "https://github.com/Adobe-CEP/CEP-Resources/raw/master/ZXPSignCMD/4.1.2/osx10/ZXPSignCmd" \
+            -o scripts/ZXPSignCmd
+          chmod +x scripts/ZXPSignCmd
+
+      - name: Restore signing certificate
+        run: |
+          echo "${{ secrets.CERT_P12_BASE64 }}" | base64 --decode > cert.p12
+
+      - name: Build ZXP
+        env:
+          CERT_PASSWORD: ${{ secrets.CERT_PASSWORD }}
+        run: node scripts/build.js
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}  # v1.0.0-beta → prerelease
+          generate_release_notes: true
+          files: dist/jasper-panel.zxp

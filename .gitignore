@@ -1,3 +1,12 @@
+# ── Project-specific ─────────────────────────────────────────────────────────
+dist/                    # built ZXP output
+cert.p12                 # code-signing certificate — keep in a password manager
+lib/CSInterface.js       # fetched by `npm run setup`
+scripts/ZXPSignCmd       # Adobe signing tool — download separately
+scripts/ZXPSignCmd.exe
+node_modules/
+
+# ── Python (template) ─────────────────────────────────────────────────────────
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
